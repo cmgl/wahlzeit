@@ -131,8 +131,8 @@ public class Photo extends DataObject {
 	@Parent
 	Key parent = ObjectManager.applicationRootKey;
 
-	// photo now has location
-	protected Location lo;
+	// photo may have a location
+	public Location location;
 
 	/**
 	 *

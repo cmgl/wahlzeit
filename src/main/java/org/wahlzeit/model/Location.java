@@ -27,5 +27,11 @@
 package org.wahlzeit.model;
 
 public class Location {
-    protected Coordinate co;
+
+    public Coordinate coordinate;
+
+    // location must have coordinate
+    public Location(Coordinate coordinate){
+        this.coordinate = coordinate;
+    }
 }
