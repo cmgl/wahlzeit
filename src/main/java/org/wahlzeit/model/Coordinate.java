@@ -63,26 +63,44 @@ public class Coordinate {
     }
 
     public boolean isEqual(Coordinate co){
-//        if(co.getX() != x || co.getY() != y || co.getZ() != z){
-        if(getDistance(co) == 0){ // this makes more sense
-            return true;
-        }
-        return false;
+        if (!areDoublesEqual(co.getX(), x)) return false;
+        if (!areDoublesEqual(co.getY(), y)) return false;
+
+        return areDoublesEqual(co.getZ(), z);
     }
 
-    @Override
-    public boolean equals(Object o){
-        if(o == null || o.getClass() != this.getClass())
+    private static final double PRECISION = 1E-5;
+
+    private static boolean areDoublesEqual(double value1, double value2) {
+        if (Double.isNaN(value1) || Double.isNaN(value2))
             return false;
-        if(this == o)
-            return true;
-        Coordinate co = (Coordinate) o;
-        return isEqual(co);
+
+        return Math.abs(value1 - value2) < PRECISION;
     }
 
-    // because equals overridden, hashCode should be overridden too for comparison purposes
     @Override
-    public int hashCode(){
-        return Objects.hash(x, y, z);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        return isEqual((Coordinate) o);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        int prime = 31;
+
+        temp = Double.doubleToLongBits(x);
+        result = (int) (temp ^ (temp >>> 32));
+
+        temp = Double.doubleToLongBits(y);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+
+        temp = Double.doubleToLongBits(z);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+
+        return result;
     }
 }
