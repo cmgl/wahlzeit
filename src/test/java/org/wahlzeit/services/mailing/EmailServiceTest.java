@@ -26,22 +26,22 @@ import static org.junit.Assert.*;
 
 public class EmailServiceTest {
 
-	private EmailService emailService = null;
+	private static EmailService emailService = null;
 
-	private EmailAddress validAddressFrom = null;
-	private EmailAddress validAddressTo = null;
-	private EmailAddress validAddressBcc = null;
+	private static EmailAddress validAddressFrom = null;
+	private static EmailAddress validAddressTo = null;
+	private static EmailAddress validAddressBcc = null;
 
-	@Before
-	public void setup() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 		emailService = EmailServiceManager.getDefaultService();
 		validAddressFrom = EmailAddress.getFromString("sender@test.de");
 		validAddressTo = EmailAddress.getFromString("recipient@test.de");
 		validAddressBcc = EmailAddress.getFromString("bcc@test.de");
 	}
 
-	@After
-	public void tearDown() {
+	@AfterClass
+	public static void tearDown() {
 		EmailAddress.reset();
 	}
 
