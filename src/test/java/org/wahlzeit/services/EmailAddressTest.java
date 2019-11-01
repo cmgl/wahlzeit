@@ -22,6 +22,11 @@ package org.wahlzeit.services;
 
 import junit.framework.TestCase;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
+import static org.junit.Assert.assertThrows;
+
 /**
  * Test cases for the EmailAddress class.
  */
@@ -37,13 +42,25 @@ public class EmailAddressTest extends TestCase {
 	/**
 	 *
 	 */
-	public void testGetEmailAddressFromString() {
-		// invalid email addresses are allowed for local testing and online avoided by Google
+	public void testGetEmailAddressFromValidString() {
 
-		assertTrue(createEmailAddressIgnoreException("bingo@bongo"));
 		assertTrue(createEmailAddressIgnoreException("bingo@bongo.com"));
 		assertTrue(createEmailAddressIgnoreException("bingo.bongo@bongo.com"));
-		assertTrue(createEmailAddressIgnoreException("bingo+bongo@bango"));
+		assertTrue(createEmailAddressIgnoreException("bingo_bongo@bango.com"));
+	}
+
+	/**
+	 *
+	 */
+	public void testGetEmailAddressFromInvalidString() {
+
+		assertFalse(createEmailAddressIgnoreException(" "));
+		assertFalse(createEmailAddressIgnoreException("user@examplecom"));
+		assertFalse(createEmailAddressIgnoreException("userexample.com"));
+		assertFalse(createEmailAddressIgnoreException("user@example.com."));
+		assertFalse(createEmailAddressIgnoreException("user@example@example.com"));
+		assertFalse(createEmailAddressIgnoreException("ich gehe zur Uni"));
+
 	}
 
 	/**
@@ -51,20 +68,141 @@ public class EmailAddressTest extends TestCase {
 	 */
 	protected boolean createEmailAddressIgnoreException(String ea) {
 		try {
-			EmailAddress.getFromString(ea);
-			return true;
+			return EmailAddress.getFromString(ea) != null;
 		} catch (IllegalArgumentException ex) {
 			// creation failed
 			return false;
 		}
 	}
 
+	public void testNullStringThrowsException() {
+		assertThrows(NullPointerException.class, () -> EmailAddress.getFromString(null));
+	}
+
 	/**
 	 *
 	 */
 	public void testEmptyEmailAddress() {
-		assertFalse(EmailAddress.EMPTY.isValid());
+		// arrange
+		EmailAddress emptyPredefinedAddr = EmailAddress.EMPTY;
+
+		// act + assert
+		assertTrue(emptyPredefinedAddr.isEmpty());
 	}
 
-}
+	/**
+	 *
+	 */
+	public void testEmailAddressIsValid() {
+		// arrange
+		String validEmailAddressString = "userA@example.com";
 
+		// act
+		EmailAddress validEmailAddress = EmailAddress.getFromString(validEmailAddressString);
+
+		// assert
+		assertTrue(validEmailAddress.isValid());
+	}
+
+	/**
+	 *
+	 */
+	public void testEmailAddressIsNotValid() {
+		// arrange + act
+		EmailAddress validEmailAddress = EmailAddress.EMPTY;
+
+		// assert
+		assertFalse(validEmailAddress.isValid());
+	}
+
+	/**
+	 *
+	 */
+	public void testEmailAddressEqualsItself() {
+		// arrange
+		String emailAddressString = "userB@example.com";
+		EmailAddress validEmailAddress = EmailAddress.getFromString(emailAddressString);
+
+		// act + assert
+		assertTrue(validEmailAddress.isEqual(validEmailAddress));
+	}
+
+	/**
+	 *
+	 */
+	public void testIdenticalEmailAddressThrowsException() {
+		// arrange
+		String emailAddressString1 = "userC@example.com";
+		EmailAddress.getFromString(emailAddressString1);
+		String emailAddressString2 = "userC@example.com";
+
+		// act + assert
+		assertThrows(IllegalArgumentException.class, () -> EmailAddress.getFromString(emailAddressString2));
+	}
+
+	/**
+	 *
+	 */
+	public void testNotIdenticalEmailAddressesAreNotEqual() {
+		// arrange
+		String emailAddressString1 = "userD@example.com";
+		EmailAddress validEmailAddress1 = EmailAddress.getFromString(emailAddressString1);
+		String emailAddressString2 = "userE@example.com";
+		EmailAddress validEmailAddress2 = EmailAddress.getFromString(emailAddressString2);
+
+		// act + assert
+		assertFalse(validEmailAddress1.isEqual(validEmailAddress2));
+		assertFalse(validEmailAddress2.isEqual(validEmailAddress1));
+	}
+
+	/**
+	 *
+	 */
+	public void testEmailAddressAsString() {
+		// arrange
+		String emailAddressString = "userF@example.com";
+		EmailAddress validEmailAddress = EmailAddress.getFromString(emailAddressString);
+
+		// act + assert
+		assertTrue(validEmailAddress.asString().equals(emailAddressString));
+	}
+
+	/**
+	 *
+	 */
+	public void testEmailAddressAsEnternetAddress() {
+		// arrange
+		String emailAddressString = "userG@example.com";
+		EmailAddress validEmailAddress = EmailAddress.getFromString(emailAddressString);
+
+		// act + assert
+		assertTrue(validEmailAddress.asInternetAddress().equals( createInternetAddress(emailAddressString)));
+	}
+
+	protected InternetAddress createInternetAddress(String address){
+		InternetAddress result = null;
+
+		try {
+			result = new InternetAddress(address);
+		} catch (AddressException ex) {
+			System.out.println(ex);
+		}
+
+		return result;
+	}
+
+	/**
+	 *
+	 */
+	public void testEmailAddressReset() {
+		// arrange
+		String emailAddressString = "userG@example.com";
+		EmailAddress.getFromString(emailAddressString);
+
+		// act
+		EmailAddress.reset();
+
+		// assert
+		assertTrue(EmailAddress.getFromString(emailAddressString).isValid());
+	}
+}

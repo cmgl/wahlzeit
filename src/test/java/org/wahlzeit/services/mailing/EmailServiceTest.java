@@ -19,9 +19,7 @@
  */
 package org.wahlzeit.services.mailing;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.wahlzeit.services.EmailAddress;
 
 import static org.junit.Assert.assertFalse;
@@ -36,6 +34,11 @@ public class EmailServiceTest {
 	public void setup() throws Exception {
 		emailService = EmailServiceManager.getDefaultService();
 		validAddress = EmailAddress.getFromString("test@test.de");
+	}
+
+	@After
+	public void tearDown() {
+		EmailAddress.reset();
 	}
 
 	@Test

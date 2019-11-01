@@ -60,24 +60,44 @@ public class EmailAddress implements Serializable {
 	/**
 	 *
 	 */
-	public static EmailAddress getFromString(String myValue) {
-		return doGetFromString(myValue);
+	public static EmailAddress getFromString(String myValue) throws NullPointerException, IllegalArgumentException {
+		if (myValue == null)
+			throw new NullPointerException("e-mail address cannot be null!");
+
+		try {
+			return doGetFromString(myValue);
+		} catch (IllegalArgumentException ex){
+			throw ex;
+		}
 	}
 
 	/**
 	 *
 	 */
-	protected static EmailAddress doGetFromString(String myValue) {
+	protected static EmailAddress doGetFromString(String myValue) throws IllegalArgumentException {
+		// validate new email
+		EmailAddress mailToValidate = new EmailAddress(myValue);
+		if ( !myValue.isEmpty() && !mailToValidate.isValid() )
+			throw new IllegalArgumentException("email address is not valid");
+
+		// find in the list of email addresses
 		EmailAddress result = instances.get(myValue);
 		if (result == null) {
 			synchronized (instances) {
 				result = instances.get(myValue);
 				if (result == null) {
-					result = new EmailAddress(myValue);
+					result = mailToValidate;
 					instances.put(myValue, result);
+				}
+				else {
+					throw new IllegalArgumentException("email address already exists");
 				}
 			}
 		}
+		else{
+			throw new IllegalArgumentException("email address already exists");
+		}
+
 
 		return result;
 	}
@@ -98,7 +118,7 @@ public class EmailAddress implements Serializable {
 		try {
 			result = new InternetAddress(value);
 		} catch (AddressException ex) {
-			// should not happen
+			System.out.println(ex);
 		}
 
 		return result;
@@ -108,7 +128,10 @@ public class EmailAddress implements Serializable {
 	 * @methodtype boolean-query
 	 */
 	public boolean isEqual(EmailAddress emailAddress) {
-		return this == emailAddress;
+		if(emailAddress == null)
+			return false;
+
+		return this.asString().equals( emailAddress.asString());
 	}
 
 	/**
@@ -116,14 +139,26 @@ public class EmailAddress implements Serializable {
 	 */
 
 	public boolean isValid() {
-		return !isEmpty();
+		if(this.isEmpty())
+			return false;
+
+		// inspired from: https://www.tutorialspoint.com/validate-email-address-in-java
+		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+		return this.asString().matches(regex);
 	}
 
 	/**
 	 *
 	 */
 	public boolean isEmpty() {
-		return this == EMPTY;
+		return this.isEqual( EMPTY );
+	}
+
+	/**
+	 *
+	 */
+	public static void reset() {
+		instances.clear();
 	}
 
 }
