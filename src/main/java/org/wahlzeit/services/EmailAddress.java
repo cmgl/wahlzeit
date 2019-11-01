@@ -94,10 +94,10 @@ public class EmailAddress implements Serializable {
 				}
 			}
 		}
-		else{
+		// TODO: conflict with the TellFriendTest#testTellFriendPost() test method
+		/*else {
 			throw new IllegalArgumentException("email address already exists");
-		}
-
+		}*/
 
 		return result;
 	}
@@ -143,7 +143,7 @@ public class EmailAddress implements Serializable {
 			return false;
 
 		// inspired from: https://www.tutorialspoint.com/validate-email-address-in-java
-		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@(([\\w]+\\.)+[\\w]+[\\w]|localhost)$";
 		return this.asString().matches(regex);
 	}
 

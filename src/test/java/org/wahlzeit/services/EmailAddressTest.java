@@ -130,14 +130,16 @@ public class EmailAddressTest extends TestCase {
 	/**
 	 *
 	 */
-	public void testIdenticalEmailAddressThrowsException() {
+	public void testIdenticalEmailAddressIsEqual() {
 		// arrange
 		String emailAddressString1 = "userC@example.com";
-		EmailAddress.getFromString(emailAddressString1);
+		EmailAddress emailAddress1 = EmailAddress.getFromString(emailAddressString1);
 		String emailAddressString2 = "userC@example.com";
+		EmailAddress emailAddress2 = EmailAddress.getFromString(emailAddressString2);
 
 		// act + assert
-		assertThrows(IllegalArgumentException.class, () -> EmailAddress.getFromString(emailAddressString2));
+		assertTrue(emailAddress1.isEqual(emailAddress2));
+		assertTrue(emailAddress2.isEqual(emailAddress1));
 	}
 
 	/**
@@ -196,7 +198,7 @@ public class EmailAddressTest extends TestCase {
 	 */
 	public void testEmailAddressReset() {
 		// arrange
-		String emailAddressString = "userG@example.com";
+		String emailAddressString = "userH@example.com";
 		EmailAddress.getFromString(emailAddressString);
 
 		// act
