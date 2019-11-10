@@ -26,7 +26,7 @@ public class PizzaPhotoTest {
         ObjectifyService.run(new Work<Void>() {
             @Override
             public Void run() {
-                user = new User("1111", "testuser", "testuser@pm.me");
+                user = new User("1111", "testuser", "user@domain.com");
                 return null;
             }
         });
