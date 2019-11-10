@@ -1,5 +1,8 @@
 package org.wahlzeit.model;
 
+import com.googlecode.objectify.annotation.Subclass;
+
+@Subclass
 public class PizzaPhoto extends Photo{
     private String myPizzaName;
     private String myPizzaDescription;
@@ -21,7 +24,7 @@ public class PizzaPhoto extends Photo{
         String caption = "";
 
         if (null != myPizzaName && !myPizzaName.isEmpty())
-            caption += "Pizza name: " + myPizzaName;
+            caption += "Pizza name: " + myPizzaName + ". ";
 
         caption += super.getCaption(cfg);
         return caption;

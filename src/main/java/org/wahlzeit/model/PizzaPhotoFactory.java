@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 public class PizzaPhotoFactory extends PhotoFactory {
 
     private static final Logger log = Logger.getLogger(PizzaPhotoFactory.class.getName());
-
     /**
      * Hidden singleton instance; needs to be initialized from the outside.
      */
@@ -62,7 +61,7 @@ public class PizzaPhotoFactory extends PhotoFactory {
         if (null == photo)
             return null;
 
-        return (PizzaPhoto)photo;
+        return (PizzaPhoto) photo;
     }
 
     @Override

@@ -16,7 +16,9 @@ import org.wahlzeit.model.persistence.*;
         GenderTest.class,
         GuestTest.class,
         PhotoFilterTest.class,
+        PizzaPhotoFactoryTest.class,
         PizzaPhotoManagerTest.class,
+        PizzaPhotoTest.class,
         TagsTest.class,
         UserStatusTest.class,
         ValueTest.class

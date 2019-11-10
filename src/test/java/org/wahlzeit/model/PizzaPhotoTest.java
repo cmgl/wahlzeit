@@ -1,21 +1,54 @@
 package org.wahlzeit.model;
 
-import org.junit.Test;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Work;
+import org.junit.*;
+import org.junit.rules.RuleChain;
+import org.wahlzeit.services.Language;
+import org.wahlzeit.services.SessionManager;
+import org.wahlzeit.testEnvironmentProvider.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class PizzaPhotoTest {
+
+    @ClassRule
+    public static RuleChain ruleChain = RuleChain.
+            outerRule(new LocalDatastoreServiceTestConfigProvider()).
+            around(new SysConfigProvider()).
+            around(new UserSessionProvider());
+
+    private static User user;
+
+    @BeforeClass
+    public static void setUp() {
+        // create user
+        ObjectifyService.run(new Work<Void>() {
+            @Override
+            public Void run() {
+                user = new User("1000", "testuser", "testuser@pm.me");
+                return null;
+            }
+        });
+    }
 
     @Test
     public void getCaption() {
         // arrange
         PizzaPhoto pizzaPhoto = new PizzaPhoto();
         String pizzaName = "Hawaii";
+        String testuserNick = "testuserNick";
+        String correctString = "Pizza name: Hawaii. Photo by <a href=\"/filter?userName=testuserNick\" rel=\"nofollow\">testuserNick</a>";
 
         // act
         pizzaPhoto.setPizzaName(pizzaName);
+        pizzaPhoto.setOwnerId(user.getId());
+        user.setNickName(testuserNick);
+        user.setLanguage(Language.ENGLISH);
+        String testString = pizzaPhoto.getCaption(user.getLanguageConfiguration());
 
         // assert
-        String string = pizzaPhoto.getCaption(new EnglishModelConfig());
-        System.out.println(string);
+        assertEquals(correctString, testString);
     }
 
     @Test
