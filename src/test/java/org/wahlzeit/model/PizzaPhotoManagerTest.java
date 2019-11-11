@@ -106,14 +106,14 @@ public class PizzaPhotoManagerTest {
 
     /**
      * TODO: work-in-progress
-     * not sure how to add photos to datastore
+     * not sure how to save photos in datastore
      */
     @Test
     public void initAndLoadPhotos() {
         // arrange
         // add new photo to datastore
         Map<PhotoId, PizzaPhoto> photoCache = pizzaPhotoManager.getPhotoCache();
-        //System.out.println(photoCache.size()); // check size before adding photo
+        //System.out.println(photoCache.size()); // check photoCache size before adding photo
         PizzaPhoto newPizzaPhoto = new PizzaPhoto();
         newPizzaPhoto.setOwnerId("1000");
         ObjectifyService.run(new Work<Void>() {
@@ -127,7 +127,7 @@ public class PizzaPhotoManagerTest {
         // act
         pizzaPhotoManager.init();
         photoCache = pizzaPhotoManager.getPhotoCache();
-        //System.out.println(photoCache.size()); // check size after adding photo
+        //System.out.println(photoCache.size()); // check photoCache size after adding photo
 
         // assert
     }
@@ -176,14 +176,16 @@ public class PizzaPhotoManagerTest {
      */
     @Test
     public void updateTags() {
+
     }
 
     /**
      * TODO: work-in-progress
-     * to implement after clear how to save photo with savePhoto()
+     * to implement after savePhoto() is done
      */
     @Test
     public void savePhotos() {
+
     }
 
     @Test
@@ -198,6 +200,7 @@ public class PizzaPhotoManagerTest {
     /**
      * TODO: work-in-progress
      * findPhotosByOwner(id) doesn't find the photo with owner id
+     * possibly due to savePhoto()
      */
     @Test
     public void findPhotosByOwner() {
@@ -225,18 +228,18 @@ public class PizzaPhotoManagerTest {
 
     /**
      * TODO: work-in-progress
-     * findPhotosByOwner(id) doesn't find the photo with owner id
      */
     @Test
     public void getVisiblePhoto() {
+
     }
 
     /**
      * TODO: work-in-progress
-     * findPhotosByOwner(id) doesn't find the photo with owner id
      */
     @Test
     public void createPhoto() {
+
     }
 
     /**
@@ -244,5 +247,6 @@ public class PizzaPhotoManagerTest {
      */
     @Test
     public void addPhoto() {
+
     }
 }
