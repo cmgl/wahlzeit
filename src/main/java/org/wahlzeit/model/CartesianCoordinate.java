@@ -26,9 +26,6 @@
 
 package org.wahlzeit.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 public class CartesianCoordinate implements Coordinate {
     private double x, y, z;
 
@@ -96,13 +93,13 @@ public class CartesianCoordinate implements Coordinate {
         long temp;
         int prime = 31;
 
-        temp = Double.doubleToLongBits(x);
+        temp = Double.doubleToLongBits(getX());
         result = (int) (temp ^ (temp >>> 32));
 
-        temp = Double.doubleToLongBits(y);
+        temp = Double.doubleToLongBits(getY());
         result = prime * result + (int) (temp ^ (temp >>> 32));
 
-        temp = Double.doubleToLongBits(z);
+        temp = Double.doubleToLongBits(getZ());
         result = prime * result + (int) (temp ^ (temp >>> 32));
 
         return result;
