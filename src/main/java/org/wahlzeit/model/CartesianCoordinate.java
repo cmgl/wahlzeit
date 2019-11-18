@@ -77,8 +77,15 @@ public class CartesianCoordinate implements Coordinate {
 
     @Override
     public boolean equals(Object o) {
+
+        // check if both classes implement same interface
+        Class thisClass = this.getClass();
+        Class objClass = o.getClass();
+        Class[] thisClassInterfaces = thisClass.getInterfaces();
+        Class[] objClassInterfaces = objClass.getInterfaces();
+
         if (this == o) return true;
-        if (o == null) return false;
+        if (o == null || thisClassInterfaces[0] != objClassInterfaces[0]) return false;
 
         return isEqual((Coordinate) o);
     }
