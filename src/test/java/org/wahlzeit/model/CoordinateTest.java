@@ -26,21 +26,155 @@
 
 package org.wahlzeit.model;
 
-import junit.framework.TestCase;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-public class CoordinateTest extends TestCase {
+import static org.junit.Assert.*;
 
-    /**
-     *
-     */
-    public void testCoordinate(){
-        Coordinate co0 = new Coordinate(1,1,1);
-        Coordinate co1 = new Coordinate(1,2,3);
-        assertTrue(co0.getDistance(co1) == 2.23606797749979);
-        assertFalse(co0.equals(co1));
-        assertTrue(co0.equals(co0));
+public class CoordinateTest {
 
-        Coordinate co2 = new Coordinate(1,2,3);
-        assertTrue(co1.hashCode() == co2.hashCode());
+    private static Coordinate cartesianCo1;
+    private static Coordinate cartesianCo2;
+    private static Coordinate sphericCo1;
+    private static Coordinate sphericCo2;
+
+    @BeforeClass
+    public static void setup() throws Exception {
+        cartesianCo1 = new CartesianCoordinate(1, 2, 3);
+        sphericCo1 = new SphericCoordinate(1.1071487177940904, 0.6405223126794246, 3.7416573867739413);
+
+        sphericCo2 = new SphericCoordinate(0.90, 0.82, 8.77);
+        cartesianCo2 = new CartesianCoordinate(3.9858556908757925, 5.022808802826915, 5.983079987912371);
+    }
+
+    @Test
+    public void getX() {
+        // arrange
+        // in setUp()
+
+        // act + assert
+        assertEquals(cartesianCo1.getX(), sphericCo1.getX(), 0.00001);
+        assertEquals(cartesianCo2.getX(), sphericCo2.getX(), 0.00001);
+    }
+
+    @Test
+    public void getY() {
+        // arrange
+        // in setUp()
+
+        // act + assert
+        assertEquals(cartesianCo1.getY(), sphericCo1.getY(), 0.00001);
+        assertEquals(cartesianCo2.getY(), sphericCo2.getY(), 0.00001);
+    }
+
+    @Test
+    public void getZ() {
+        // arrange
+        // in setUp()
+
+        // act + assert
+        assertEquals(cartesianCo1.getZ(), sphericCo1.getZ(), 0.00001);
+        assertEquals(cartesianCo2.getZ(), sphericCo2.getZ(), 0.00001);
+    }
+
+    @Test
+    public void getPhi() {
+        // arrange
+        // in setUp()
+
+        // act + assert
+        assertEquals(sphericCo1.getPhi(), cartesianCo1.getPhi(), 0.00001);
+        assertEquals(sphericCo2.getPhi(), cartesianCo2.getPhi(), 0.00001);
+    }
+
+    @Test
+    public void getTheta() {
+        // arrange
+        // in setUp()
+
+        // act + assert
+        assertEquals(sphericCo1.getTheta(), cartesianCo1.getTheta(), 0.00001);
+        assertEquals(sphericCo2.getTheta(), cartesianCo2.getTheta(), 0.00001);
+    }
+
+    @Test
+    public void getRadius() {
+        // arrange
+        // in setUp()
+
+        // act + assert
+        assertEquals(sphericCo1.getRadius(), cartesianCo1.getRadius(), 0.00001);
+        assertEquals(sphericCo2.getRadius(), cartesianCo2.getRadius(), 0.00001);
+    }
+
+    @Test
+    public void asCartesianCoordinate() {
+        // arrange
+        Coordinate caCo1 = sphericCo1.asCartesianCoordinate();
+        Coordinate caCo2 = sphericCo2.asCartesianCoordinate();
+
+        // act + assert
+        assertTrue(caCo1.equals(sphericCo1));
+        assertTrue(caCo2.equals(sphericCo2));
+    }
+
+    @Test
+    public void getCartesianDistance() {
+        // arrange
+        // in setUp()
+
+        // act + assert
+        assertEquals(5.191480856120584, cartesianCo1.getCartesianDistance(cartesianCo2), 0.00001);
+        assertEquals(5.191480856120584, sphericCo1.getCartesianDistance(sphericCo2), 0.00001);
+        assertEquals(5.191480856120584, cartesianCo1.getCartesianDistance(sphericCo2), 0.00001);
+        // vice versa
+        assertEquals(5.191480856120584, cartesianCo2.getCartesianDistance(cartesianCo1), 0.00001);
+        assertEquals(5.191480856120584, sphericCo2.getCartesianDistance(sphericCo1), 0.00001);
+        assertEquals(5.191480856120584, cartesianCo2.getCartesianDistance(sphericCo1), 0.00001);
+        // 0 distance between same objects
+        assertEquals(0, cartesianCo1.getCartesianDistance(cartesianCo1), 0.00001);
+        assertEquals(0, sphericCo1.getCartesianDistance(sphericCo1), 0.00001);
+        assertEquals(0, cartesianCo1.getCartesianDistance(sphericCo1), 0.00001);
+    }
+
+    @Test
+    public void asSphericCoordinate() {
+        // arrange
+        Coordinate spCo1 = cartesianCo1.asSphericCoordinate();
+        Coordinate spCo2 = cartesianCo2.asSphericCoordinate();
+
+        // act + assert
+        assertTrue(spCo1.equals(cartesianCo1));
+        assertTrue(spCo2.equals(cartesianCo2));
+    }
+
+    @Test
+    public void getCentralAngle() {
+        // arrange
+        double correctVal = 0.22784270886757363;
+
+        // act + assert
+        assertEquals(correctVal, sphericCo1.getCentralAngle(sphericCo2), 0.00001);
+        assertEquals(correctVal, sphericCo2.getCentralAngle(sphericCo1), 0.00001);
+    }
+
+    @Test
+    public void isEqual() {
+        // arrange
+        // in setUp()
+
+        // act + assert
+        assertTrue(cartesianCo1.isEqual(cartesianCo1));
+        assertTrue(cartesianCo1.isEqual(sphericCo1));
+        assertTrue(sphericCo1.isEqual(sphericCo1));
+        assertTrue(sphericCo1.isEqual(cartesianCo1));
+
+        assertFalse(cartesianCo1.isEqual(cartesianCo2));
+        assertFalse(cartesianCo2.isEqual(cartesianCo1));
+        assertFalse(cartesianCo1.isEqual(sphericCo2));
+
+        assertFalse(sphericCo1.isEqual(sphericCo2));
+        assertFalse(sphericCo2.isEqual(sphericCo1));
+        assertFalse(sphericCo1.isEqual(cartesianCo2));
     }
 }
