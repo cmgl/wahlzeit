@@ -10,8 +10,9 @@ import org.wahlzeit.model.persistence.*;
         // persistence tests
         DatastoreAdapterTest.class,
 
+        AbstractCoordinateTest.class,
         AccessRightsTest.class,
-        CoordinateTest.class,
+        CartesianCoordinateTest.class,
         FlagReasonTest.class,
         GenderTest.class,
         GuestTest.class,
@@ -19,6 +20,7 @@ import org.wahlzeit.model.persistence.*;
         PizzaPhotoFactoryTest.class,
         PizzaPhotoManagerTest.class,
         PizzaPhotoTest.class,
+        SphericCoordinateTest.class,
         TagsTest.class,
         UserStatusTest.class,
         ValueTest.class

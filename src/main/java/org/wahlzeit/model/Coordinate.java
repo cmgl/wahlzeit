@@ -2,13 +2,7 @@ package org.wahlzeit.model;
 
 public interface Coordinate {
 
-    double getX();
-    double getY();
-    double getZ();
-
-    double getPhi();
-    double getTheta();
-    double getRadius();
+    // removed getters from interface, thank you for your fast feedback!
 
     CartesianCoordinate asCartesianCoordinate();
 

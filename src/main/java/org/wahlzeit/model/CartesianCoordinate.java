@@ -26,8 +26,8 @@
 
 package org.wahlzeit.model;
 
-public class CartesianCoordinate implements Coordinate {
-    private double x, y, z;
+public class CartesianCoordinate extends AbstractCoordinate {
+    public double x, y, z;
 
     public CartesianCoordinate(double x, double y, double z){
         this.x = x;
@@ -35,30 +35,14 @@ public class CartesianCoordinate implements Coordinate {
         this.z = z;
     }
 
-    @Override
     public double getX(){
         return x;
     }
-    @Override
     public double getY(){
         return y;
     }
-    @Override
     public double getZ(){
         return z;
-    }
-
-    @Override
-    public double getPhi() {
-        return Math.atan( y / x );
-    }
-    @Override
-    public double getTheta() {
-        return Math.atan( Math.sqrt( Math.pow(x,2) + Math.pow(y,2) ) / z );
-    }
-    @Override
-    public double getRadius() {
-        return Math.sqrt( Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2) );
     }
 
     // use case of setters: GPS coordinates are inaccurate (bad GPS signal...) and correction required
@@ -72,79 +56,30 @@ public class CartesianCoordinate implements Coordinate {
         this.z = z;
     }
 
-    @Override
-    public boolean equals(Object o) {
-
-        // check if both classes implement same interface
-        Class thisClass = this.getClass();
-        Class objClass = o.getClass();
-        Class[] thisClassInterfaces = thisClass.getInterfaces();
-        Class[] objClassInterfaces = objClass.getInterfaces();
-
-        if (this == o) return true;
-        if (o == null || thisClassInterfaces[0] != objClassInterfaces[0]) return false;
-
-        return isEqual((Coordinate) o);
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        int prime = 31;
-
-        temp = Double.doubleToLongBits(getX());
-        result = (int) (temp ^ (temp >>> 32));
-
-        temp = Double.doubleToLongBits(getY());
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-
-        temp = Double.doubleToLongBits(getZ());
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-
-        return result;
-    }
-
-    @Override
     public CartesianCoordinate asCartesianCoordinate() {
         return this;
     }
 
-    @Override
-    public double getCartesianDistance(Coordinate co) {
-        return doGetCartesianDistance(co);
+    public double getCartesianDistance(CartesianCoordinate cartesianCoordinate) {
+        return doGetCartesianDistance(cartesianCoordinate);
     }
 
-    private double doGetCartesianDistance(Coordinate co){
+    private double doGetCartesianDistance(CartesianCoordinate co){
         return Math.sqrt( Math.pow((co.getX()-x),2) + Math.pow((co.getY()-y),2) + Math.pow((co.getZ()-z),2) );
     }
 
-    @Override
     public SphericCoordinate asSphericCoordinate() {
         return new SphericCoordinate(getPhi(), getTheta(), getRadius());
     }
 
-    @Override
-    public double getCentralAngle(Coordinate co) {
-        return doGetCentralAngle(co);
+    // helper methods for conversion to SphericCoordinate
+    private double getPhi() {
+        return Math.atan( y / x );
     }
-
-    // https://en.wikipedia.org/wiki/Great-circle_distance#Formulae
-    private double doGetCentralAngle(Coordinate co) {
-        return asSphericCoordinate().getCentralAngle(co);
+    private double getTheta() {
+        return Math.atan( Math.sqrt( Math.pow(x,2) + Math.pow(y,2) ) / z );
     }
-
-    @Override
-    public boolean isEqual(Coordinate co){
-        if (!areDoublesEqual(co.getX(), x)) return false;
-        if (!areDoublesEqual(co.getY(), y)) return false;
-        return areDoublesEqual(co.getZ(), z);
-    }
-
-    private static final double PRECISION = 1E-5;
-    private static boolean areDoublesEqual(double value1, double value2) {
-        if (Double.isNaN(value1) || Double.isNaN(value2))
-            return false;
-        return Math.abs(value1 - value2) < PRECISION;
+    private double getRadius() {
+        return Math.sqrt( Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2) );
     }
 }

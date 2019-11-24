@@ -31,12 +31,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class CoordinateTest {
+public class AbstractCoordinateTest {
 
-    private static Coordinate cartesianCo1;
-    private static Coordinate cartesianCo2;
-    private static Coordinate sphericCo1;
-    private static Coordinate sphericCo2;
+    private static CartesianCoordinate cartesianCo1;
+    private static CartesianCoordinate cartesianCo2;
+    private static SphericCoordinate sphericCo1;
+    private static SphericCoordinate sphericCo2;
 
     @BeforeClass
     public static void setup() throws Exception {
@@ -45,77 +45,6 @@ public class CoordinateTest {
 
         sphericCo2 = new SphericCoordinate(0.90, 0.82, 8.77);
         cartesianCo2 = new CartesianCoordinate(3.9858556908757925, 5.022808802826915, 5.983079987912371);
-    }
-
-    @Test
-    public void getX() {
-        // arrange
-        // in setUp()
-
-        // act + assert
-        assertEquals(cartesianCo1.getX(), sphericCo1.getX(), 0.00001);
-        assertEquals(cartesianCo2.getX(), sphericCo2.getX(), 0.00001);
-    }
-
-    @Test
-    public void getY() {
-        // arrange
-        // in setUp()
-
-        // act + assert
-        assertEquals(cartesianCo1.getY(), sphericCo1.getY(), 0.00001);
-        assertEquals(cartesianCo2.getY(), sphericCo2.getY(), 0.00001);
-    }
-
-    @Test
-    public void getZ() {
-        // arrange
-        // in setUp()
-
-        // act + assert
-        assertEquals(cartesianCo1.getZ(), sphericCo1.getZ(), 0.00001);
-        assertEquals(cartesianCo2.getZ(), sphericCo2.getZ(), 0.00001);
-    }
-
-    @Test
-    public void getPhi() {
-        // arrange
-        // in setUp()
-
-        // act + assert
-        assertEquals(sphericCo1.getPhi(), cartesianCo1.getPhi(), 0.00001);
-        assertEquals(sphericCo2.getPhi(), cartesianCo2.getPhi(), 0.00001);
-    }
-
-    @Test
-    public void getTheta() {
-        // arrange
-        // in setUp()
-
-        // act + assert
-        assertEquals(sphericCo1.getTheta(), cartesianCo1.getTheta(), 0.00001);
-        assertEquals(sphericCo2.getTheta(), cartesianCo2.getTheta(), 0.00001);
-    }
-
-    @Test
-    public void getRadius() {
-        // arrange
-        // in setUp()
-
-        // act + assert
-        assertEquals(sphericCo1.getRadius(), cartesianCo1.getRadius(), 0.00001);
-        assertEquals(sphericCo2.getRadius(), cartesianCo2.getRadius(), 0.00001);
-    }
-
-    @Test
-    public void asCartesianCoordinate() {
-        // arrange
-        Coordinate caCo1 = sphericCo1.asCartesianCoordinate();
-        Coordinate caCo2 = sphericCo2.asCartesianCoordinate();
-
-        // act + assert
-        assertTrue(caCo1.equals(sphericCo1));
-        assertTrue(caCo2.equals(sphericCo2));
     }
 
     @Test
@@ -135,17 +64,6 @@ public class CoordinateTest {
         assertEquals(0, cartesianCo1.getCartesianDistance(cartesianCo1), 0.00001);
         assertEquals(0, sphericCo1.getCartesianDistance(sphericCo1), 0.00001);
         assertEquals(0, cartesianCo1.getCartesianDistance(sphericCo1), 0.00001);
-    }
-
-    @Test
-    public void asSphericCoordinate() {
-        // arrange
-        Coordinate spCo1 = cartesianCo1.asSphericCoordinate();
-        Coordinate spCo2 = cartesianCo2.asSphericCoordinate();
-
-        // act + assert
-        assertTrue(spCo1.equals(cartesianCo1));
-        assertTrue(spCo2.equals(cartesianCo2));
     }
 
     @Test
