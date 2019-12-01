@@ -64,6 +64,11 @@ public class AbstractCoordinateTest {
         assertEquals(0, cartesianCo1.getCartesianDistance(cartesianCo1), 0.00001);
         assertEquals(0, sphericCo1.getCartesianDistance(sphericCo1), 0.00001);
         assertEquals(0, cartesianCo1.getCartesianDistance(sphericCo1), 0.00001);
+        // design by contract
+        assertThrows(AssertionError.class,
+                ()->{
+                    cartesianCo1.getCartesianDistance(null);
+                });
     }
 
     @Test
@@ -74,6 +79,12 @@ public class AbstractCoordinateTest {
         // act + assert
         assertEquals(correctVal, sphericCo1.getCentralAngle(sphericCo2), 0.00001);
         assertEquals(correctVal, sphericCo2.getCentralAngle(sphericCo1), 0.00001);
+        assertEquals(correctVal, cartesianCo2.getCentralAngle(cartesianCo1), 0.00001);
+        // design by contract
+        assertThrows(AssertionError.class,
+                ()->{
+                    sphericCo1.getCentralAngle(null);
+                });
     }
 
     @Test
@@ -86,13 +97,14 @@ public class AbstractCoordinateTest {
         assertTrue(cartesianCo1.isEqual(sphericCo1));
         assertTrue(sphericCo1.isEqual(sphericCo1));
         assertTrue(sphericCo1.isEqual(cartesianCo1));
-
         assertFalse(cartesianCo1.isEqual(cartesianCo2));
         assertFalse(cartesianCo2.isEqual(cartesianCo1));
         assertFalse(cartesianCo1.isEqual(sphericCo2));
-
         assertFalse(sphericCo1.isEqual(sphericCo2));
         assertFalse(sphericCo2.isEqual(sphericCo1));
         assertFalse(sphericCo1.isEqual(cartesianCo2));
+        // design by contract
+        assertThrows(AssertionError.class, ()->{ cartesianCo1.isEqual(null); });
+        assertThrows(AssertionError.class, ()->{ sphericCo1.isEqual(null); });
     }
 }

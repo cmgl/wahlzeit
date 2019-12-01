@@ -13,7 +13,7 @@ public class CartesianCoordinateTest {
     private static SphericCoordinate sphericCo2;
 
     @BeforeClass
-    public static void setup() throws Exception {
+    public static void setup() {
         cartesianCo1 = new CartesianCoordinate(1, 2, 3);
         sphericCo1 = new SphericCoordinate(1.1071487177940904, 0.6405223126794246, 3.7416573867739413);
 

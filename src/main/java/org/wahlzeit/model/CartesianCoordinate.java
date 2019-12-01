@@ -26,10 +26,15 @@
 
 package org.wahlzeit.model;
 
-public class CartesianCoordinate extends AbstractCoordinate {
-    public double x, y, z;
+public class CartesianCoordinate extends AbstractCoordinate implements Coordinate {
+    private double x, y, z;
 
     public CartesianCoordinate(double x, double y, double z){
+        // check preconditions
+        assertXValue(x);
+        assertYValue(y);
+        assertZValue(z);
+
         this.x = x;
         this.y = y;
         this.z = z;
@@ -47,20 +52,32 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
     // use case of setters: GPS coordinates are inaccurate (bad GPS signal...) and correction required
     public void setX(double x){
+        assertXValue(x); // check preconditions
         this.x = x;
     }
     public void setY(double y){
+        assertYValue(y); // check preconditions
         this.y = y;
     }
     public void setZ(double z){
+        assertZValue(z); // check preconditions
         this.z = z;
     }
 
     public CartesianCoordinate asCartesianCoordinate() {
+        assertClassInvariants();
         return this;
     }
 
-    public double getCartesianDistance(CartesianCoordinate cartesianCoordinate) {
+    public double getCartesianDistance(Coordinate co) {
+        // check preconditions
+        assert (co != null);
+
+        CartesianCoordinate cartesianCoordinate = co.asCartesianCoordinate();
+
+        // check preconditions
+        doAssertClassInvariants(cartesianCoordinate);
+
         return doGetCartesianDistance(cartesianCoordinate);
     }
 
@@ -69,7 +86,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     public SphericCoordinate asSphericCoordinate() {
-        return new SphericCoordinate(getPhi(), getTheta(), getRadius());
+        SphericCoordinate sphericCoordinate = new SphericCoordinate(getPhi(), getTheta(), getRadius());
+        sphericCoordinate.assertClassInvariants(); // out of the class
+        return sphericCoordinate;
     }
 
     // helper methods for conversion to SphericCoordinate
@@ -81,5 +100,25 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
     private double getRadius() {
         return Math.sqrt( Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2) );
+    }
+
+    public void assertClassInvariants() throws AssertionError {
+        doAssertClassInvariants(this);
+    }
+
+    private void doAssertClassInvariants(CartesianCoordinate cartesianCoordinate) throws AssertionError {
+        assertXValue(cartesianCoordinate.getPhi());
+        assertYValue(cartesianCoordinate.getTheta());
+        assertZValue(cartesianCoordinate.getRadius());
+    }
+
+    private void assertXValue(double x) throws AssertionError {
+        assert (!Double.isNaN(x));
+    }
+    private void assertYValue(double y) throws AssertionError {
+        assert (!Double.isNaN(y));
+    }
+    private void assertZValue(double z) throws AssertionError {
+        assert (!Double.isNaN(z));
     }
 }
