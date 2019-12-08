@@ -53,12 +53,13 @@ public class PizzaPhotoFactoryTest {
         // arrange
         PizzaPhoto pizzaPhotoNoId = pizzaPhotoFactory.createPhoto();//new PizzaPhoto();
         int idFromPizzaPhoto = pizzaPhotoNoId.getId().asInt();
-        int idForPizzaPhoto = 88888888;
+        int idForPizzaPhoto = 8888;
+        PhotoId photoIdForPizzaPhoto = new PhotoId(idForPizzaPhoto);
         PizzaPhoto pizzaPhotoWithId = pizzaPhotoFactory.createPhoto(new PhotoId(idForPizzaPhoto));//new PizzaPhoto(new PhotoId(idForPizzaPhoto));
 
         // act
         PizzaPhoto loadPizzaPhotoNoId = pizzaPhotoFactory.loadPhoto(PhotoId.getIdFromInt(idFromPizzaPhoto));
-        PizzaPhoto loadPizzaPhotoWithId = pizzaPhotoFactory.loadPhoto(PhotoId.getIdFromInt(idForPizzaPhoto));
+        PizzaPhoto loadPizzaPhotoWithId = pizzaPhotoFactory.loadPhoto(photoIdForPizzaPhoto);
 
         // assert
         //assertNotNull(loadPizzaPhotoNoId);
@@ -77,6 +78,5 @@ public class PizzaPhotoFactoryTest {
         // assert
         assertNotNull(photoFilter);
         assertEquals("pizza", tags.asString());
-
     }
 }
