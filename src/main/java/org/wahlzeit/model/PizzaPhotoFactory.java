@@ -2,11 +2,13 @@ package org.wahlzeit.model;
 
 import org.wahlzeit.services.LogBuilder;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PizzaPhotoFactory extends PhotoFactory {
 
     private static final Logger log = Logger.getLogger(PizzaPhotoFactory.class.getName());
+
     /**
      * Hidden singleton instance; needs to be initialized from the outside.
      */
@@ -28,6 +30,11 @@ public class PizzaPhotoFactory extends PhotoFactory {
      * Method to set the singleton instance of PhotoFactory.
      */
     protected static synchronized void setInstance(PizzaPhotoFactory pizzaPhotoFactory) {
+        if(null == pizzaPhotoFactory){
+            log.log(Level.SEVERE, "attempt to initialize PizzaPhotoFactory as null object");
+            throw new IllegalArgumentException("attempt to initialize PizzaPhotoFactory as null object");
+        }
+
         if (instance != null) {
             throw new IllegalStateException("attempt to initalize PizzaPhotoFactory twice");
         }
@@ -48,6 +55,10 @@ public class PizzaPhotoFactory extends PhotoFactory {
      */
     @Override
     public PizzaPhoto createPhoto(PhotoId id) {
+        if(null == id || id.isNullId()){
+            log.log(Level.WARNING, "PhotoId not valid");
+            throw new IllegalArgumentException("PhotoId not valid");
+        }
         return new PizzaPhoto(id);
     }
 
@@ -57,6 +68,10 @@ public class PizzaPhotoFactory extends PhotoFactory {
      */
     @Override
     public PizzaPhoto loadPhoto(PhotoId id) {
+        if(null == id || id.isNullId()){
+            log.log(Level.WARNING, "PhotoId not valid");
+            throw new IllegalArgumentException("PhotoId not valid");
+        }
         Photo photo = super.loadPhoto(id);
         if (null == photo)
             return null;

@@ -1,12 +1,20 @@
 package org.wahlzeit.model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public abstract class AbstractCoordinate implements Coordinate {
+
+    private static final Logger log = Logger.getLogger(AbstractCoordinate.class.getName());
 
     public abstract CartesianCoordinate asCartesianCoordinate();
 
     public double getCartesianDistance(Coordinate co) {
         // test preconditions first
-        assert (co != null);
+        if(null == co){
+            log.log(Level.WARNING, "Coordinate object argument cannot be null");
+            throw new IllegalArgumentException("Coordinate object argument cannot be null");
+        }
 
         return this.asCartesianCoordinate().getCartesianDistance(co);
     }
@@ -15,14 +23,20 @@ public abstract class AbstractCoordinate implements Coordinate {
 
     public double getCentralAngle(Coordinate co) {
         // check preconditions
-        assert (co != null);
+        if(null == co){
+            log.log(Level.WARNING, "Coordinate object argument cannot be null");
+            throw new IllegalArgumentException("Coordinate object argument cannot be null");
+        }
 
         return this.asSphericCoordinate().getCentralAngle(co);
     }
 
     public boolean isEqual(Coordinate co){
         // check preconditions
-        assert (co != null);
+        if(null == co){
+            log.log(Level.WARNING, "Coordinate object argument cannot be null");
+            throw new IllegalArgumentException("Coordinate object argument cannot be null");
+        }
 
         CartesianCoordinate cartesianCoordinate = co.asCartesianCoordinate();
         if (!areDoublesEqual(cartesianCoordinate.getX(), this.asCartesianCoordinate().getX())) return false;
@@ -42,7 +56,10 @@ public abstract class AbstractCoordinate implements Coordinate {
     @Override
     public boolean equals(Object o) {
         // check preconditions
-        assert(o != null);
+        if(null == o){
+            log.log(Level.WARNING, "Object argument cannot be null");
+            throw new IllegalArgumentException("Object argument cannot be null");
+        }
 
         if (this == o) return true;
 

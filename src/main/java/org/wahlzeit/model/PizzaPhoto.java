@@ -2,6 +2,9 @@ package org.wahlzeit.model;
 
 import com.googlecode.objectify.annotation.Subclass;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Subclass
 public class PizzaPhoto extends Photo{
     private String myPizzaName;
@@ -9,6 +12,8 @@ public class PizzaPhoto extends Photo{
     private String myPizzaIngredients;
 
     public static final Tags PIZZA_TAG = new Tags("pizza");
+
+    private static final Logger log = Logger.getLogger(PizzaPhoto.class.getName());
 
     public PizzaPhoto(){
         super();
@@ -31,6 +36,10 @@ public class PizzaPhoto extends Photo{
     }
 
     public void setPizzaName(String name){
+        if(null == name || name.length() == 0){
+            log.log(Level.WARNING, "pizza name not valid");
+            throw new IllegalArgumentException("pizza name not valid");
+        }
         myPizzaName = name;
     }
 
@@ -39,6 +48,10 @@ public class PizzaPhoto extends Photo{
     }
 
     public void setMyPizzaDescription(String description){
+        if(null == description || description.length() == 0){
+            log.log(Level.WARNING, "pizza description not valid");
+            throw new IllegalArgumentException("pizza description not valid");
+        }
         myPizzaDescription = description;
     }
 
@@ -47,6 +60,10 @@ public class PizzaPhoto extends Photo{
     }
 
     public void setMyPizzaIngredients(String ingredients){
+        if(null == ingredients || ingredients.length() == 0){
+            log.log(Level.WARNING, "pizza ingredients not valid");
+            throw new IllegalArgumentException("pizza ingredients not valid");
+        }
         myPizzaIngredients = ingredients;
     }
 
