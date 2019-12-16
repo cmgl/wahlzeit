@@ -26,15 +26,44 @@
 
 package org.wahlzeit.model;
 
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CartesianCoordinate extends AbstractCoordinate implements Coordinate {
-    private double x, y, z;
+public final class CartesianCoordinate extends AbstractCoordinate implements Coordinate {
 
     private static final Logger log = Logger.getLogger(CartesianCoordinate.class.getName());
 
-    public CartesianCoordinate(double x, double y, double z){
+    private static Hashtable<String, CartesianCoordinate> cache = new Hashtable<String, CartesianCoordinate>();
+
+    public static CartesianCoordinate getCartesianCoordinate(double x, double y, double z){
+        String key = getKey(x, y, z);
+        CartesianCoordinate cartesianCoordinate;
+
+        if(cache.containsKey(key)){
+            cartesianCoordinate = cache.get(key);
+        } else {
+            cartesianCoordinate = new CartesianCoordinate(x, y, z);
+            cache.put(key, cartesianCoordinate);
+        }
+        return cartesianCoordinate;
+    }
+
+    private static String getKey(double x, double y, double z){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(x + ";");
+        stringBuilder.append(y + ";");
+        stringBuilder.append(z);
+
+        String key = stringBuilder.toString();
+
+        return key;
+    }
+
+    private final double x, y, z;
+
+    private CartesianCoordinate(double x, double y, double z){
         // check preconditions
         try { assertXValue(x); } catch (AssertionError ex) {
             log.log(Level.WARNING, "x value argument not valid");
@@ -64,35 +93,6 @@ public class CartesianCoordinate extends AbstractCoordinate implements Coordinat
         return z;
     }
 
-    // use case of setters: GPS coordinates are inaccurate (bad GPS signal...) and correction required
-    public void setX(double x){
-        // check preconditions
-        try { assertXValue(x); } catch (AssertionError ex) {
-            log.log(Level.WARNING, "x value argument not valid");
-            throw new IllegalArgumentException("x value argument not valid");
-        }
-
-        this.x = x;
-    }
-    public void setY(double y){
-        // check preconditions
-        try { assertYValue(y); } catch (AssertionError ex) {
-            log.log(Level.WARNING, "y value argument not valid");
-            throw new IllegalArgumentException("y value argument not valid");
-        }
-
-        this.y = y;
-    }
-    public void setZ(double z){
-        // check preconditions
-        try { assertZValue(z); } catch (AssertionError ex) {
-            log.log(Level.WARNING, "z value argument not valid");
-            throw new IllegalArgumentException("z value argument not valid");
-        }
-
-        this.z = z;
-    }
-
     public CartesianCoordinate asCartesianCoordinate() {
         assertClassInvariants();
         return this;
@@ -118,7 +118,7 @@ public class CartesianCoordinate extends AbstractCoordinate implements Coordinat
     }
 
     public SphericCoordinate asSphericCoordinate() {
-        SphericCoordinate sphericCoordinate = new SphericCoordinate(getPhi(), getTheta(), getRadius());
+        SphericCoordinate sphericCoordinate = SphericCoordinate.getSphericCoordinate(getPhi(), getTheta(), getRadius());
         sphericCoordinate.assertClassInvariants(); // out of the class
         return sphericCoordinate;
     }

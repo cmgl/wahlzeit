@@ -40,11 +40,11 @@ public class AbstractCoordinateTest {
 
     @BeforeClass
     public static void setup() {
-        cartesianCo1 = new CartesianCoordinate(1, 2, 3);
-        sphericCo1 = new SphericCoordinate(1.1071487177940904, 0.6405223126794246, 3.7416573867739413);
+        cartesianCo1 = CartesianCoordinate.getCartesianCoordinate(1, 2, 3);
+        sphericCo1 = SphericCoordinate.getSphericCoordinate(1.1071487177940904, 0.6405223126794246, 3.7416573867739413);
 
-        sphericCo2 = new SphericCoordinate(0.90, 0.82, 8.77);
-        cartesianCo2 = new CartesianCoordinate(3.9858556908757925, 5.022808802826915, 5.983079987912371);
+        sphericCo2 = SphericCoordinate.getSphericCoordinate(0.90, 0.82, 8.77);
+        cartesianCo2 = CartesianCoordinate.getCartesianCoordinate(3.9858556908757925, 5.022808802826915, 5.983079987912371);
     }
 
     @Test
@@ -106,5 +106,25 @@ public class AbstractCoordinateTest {
         // design by contract
         assertThrows(IllegalArgumentException.class, ()->{ cartesianCo1.isEqual(null); });
         assertThrows(IllegalArgumentException.class, ()->{ sphericCo1.isEqual(null); });
+    }
+
+    @Test
+    public void immutabilityCheck() {
+        // arrange
+        CartesianCoordinate cartesianCoordinate1 = CartesianCoordinate.getCartesianCoordinate(1,1,1);
+        CartesianCoordinate cartesianCoordinate2 = CartesianCoordinate.getCartesianCoordinate(1,1,1);
+        CartesianCoordinate cartesianCoordinate3 = CartesianCoordinate.getCartesianCoordinate(2,2,2);
+
+        // act + assert
+        // test Coordinate classes are immutable and shared
+        assertTrue(cartesianCoordinate1 == cartesianCoordinate2);
+        // test Coordinate objects are interchangeable
+        assertTrue(cartesianCoordinate3.getX() == 2);
+        assertTrue(cartesianCoordinate3.getY() == 2);
+        assertTrue(cartesianCoordinate3.getZ() == 2);
+        cartesianCoordinate3 = CartesianCoordinate.getCartesianCoordinate(3,3,3); // change Coordinate object
+        assertTrue(cartesianCoordinate3.getX() == 3);
+        assertTrue(cartesianCoordinate3.getY() == 3);
+        assertTrue(cartesianCoordinate3.getZ() == 3);
     }
 }

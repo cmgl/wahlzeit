@@ -1,14 +1,43 @@
 package org.wahlzeit.model;
 
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SphericCoordinate extends AbstractCoordinate implements Coordinate {
-    private double phi, theta, radius;
+public final class SphericCoordinate extends AbstractCoordinate implements Coordinate {
 
     private static final Logger log = Logger.getLogger(CartesianCoordinate.class.getName());
 
-    public SphericCoordinate(double phi, double theta, double radius){
+    private static Hashtable<String, SphericCoordinate> cache = new Hashtable<String, SphericCoordinate>();
+
+    public static SphericCoordinate getSphericCoordinate(double phi, double theta, double radius){
+        String key = getKey(phi, theta, radius);
+        SphericCoordinate sphericCoordinate;
+
+        if(cache.containsKey(key)){
+            sphericCoordinate = cache.get(key);
+        } else {
+            sphericCoordinate = new SphericCoordinate(phi, theta, radius);
+            cache.put(key, sphericCoordinate);
+        }
+        return sphericCoordinate;
+    }
+
+    private static String getKey(double phi, double theta, double radius){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(phi + ";");
+        stringBuilder.append(theta + ";");
+        stringBuilder.append(radius);
+
+        String key = stringBuilder.toString();
+
+        return key;
+    }
+
+    private final double phi, theta, radius;
+
+    private SphericCoordinate(double phi, double theta, double radius){
         // check preconditions
         try { assertPhiValue(phi); } catch (AssertionError ex) {
             log.log(Level.WARNING, "phi value argument not valid");
@@ -38,37 +67,8 @@ public class SphericCoordinate extends AbstractCoordinate implements Coordinate 
         return radius;
     }
 
-    // use case of setters: GPS coordinates are inaccurate (bad GPS signal...) and correction required
-    public void setPhi(double phi) {
-        // check preconditions
-        try { assertPhiValue(phi); } catch (AssertionError ex) {
-            log.log(Level.WARNING, "phi value argument not valid");
-            throw new IllegalArgumentException("phi value argument not valid");
-        }
-
-        this.phi = phi;
-    }
-    public void setTheta(double theta) {
-        // check preconditions
-        try { assertPhiValue(theta); } catch (AssertionError ex) {
-            log.log(Level.WARNING, "theta value argument not valid");
-            throw new IllegalArgumentException("theta value argument not valid");
-        }
-
-        this.theta = theta;
-    }
-    public void setRadius(double radius) {
-        // check preconditions
-        try { assertPhiValue(radius); } catch (AssertionError ex) {
-            log.log(Level.WARNING, "radius value argument not valid");
-            throw new IllegalArgumentException("radius value argument not valid");
-        }
-
-        this.radius = radius;
-    }
-
     public CartesianCoordinate asCartesianCoordinate() {
-        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(getX(), getY(), getZ());
+        CartesianCoordinate cartesianCoordinate = CartesianCoordinate.getCartesianCoordinate(getX(), getY(), getZ());
         cartesianCoordinate.assertClassInvariants(); // out of the class
         return cartesianCoordinate;
     }

@@ -14,11 +14,11 @@ public class SphericCoordinateTest {
 
     @BeforeClass
     public static void setup() {
-        cartesianCo1 = new CartesianCoordinate(1, 2, 3);
-        sphericCo1 = new SphericCoordinate(1.1071487177940904, 0.6405223126794246, 3.7416573867739413);
+        cartesianCo1 = CartesianCoordinate.getCartesianCoordinate(1, 2, 3);
+        sphericCo1 = SphericCoordinate.getSphericCoordinate(1.1071487177940904, 0.6405223126794246, 3.7416573867739413);
 
-        sphericCo2 = new SphericCoordinate(0.90, 0.82, 8.77);
-        cartesianCo2 = new CartesianCoordinate(3.9858556908757925, 5.022808802826915, 5.983079987912371);
+        sphericCo2 = SphericCoordinate.getSphericCoordinate(0.90, 0.82, 8.77);
+        cartesianCo2 = CartesianCoordinate.getCartesianCoordinate(3.9858556908757925, 5.022808802826915, 5.983079987912371);
     }
 
     @Test
