@@ -72,4 +72,30 @@ public class SphericCoordinateTest {
         assertTrue(spCo1.equals(sphericCo1));
         assertTrue(spCo2.equals(sphericCo2));
     }
+
+    @Test
+    public void immutabilityCheck() {
+        // arrange
+        SphericCoordinate sphericCoordinate1 = SphericCoordinate.getSphericCoordinate(1.0,1.0,1.0);
+        SphericCoordinate sphericCoordinate2 = SphericCoordinate.getSphericCoordinate(1.0,1.0,1.0);
+        SphericCoordinate sphericCoordinate3 = SphericCoordinate.getSphericCoordinate(1.1,1.1,1.1);
+        SphericCoordinate sphericCoordinate4 = sphericCoordinate1.setPhi(1.9);
+
+        // act + assert
+
+        // test Coordinate classes are immutable
+        assertFalse(sphericCoordinate4 == sphericCoordinate1);
+
+        // test Coordinate classes are shared
+        assertTrue(sphericCoordinate1 == sphericCoordinate2);
+
+        // test Coordinate objects are interchangeable
+        assertTrue(sphericCoordinate3.getPhi() == 1.1);
+        assertTrue(sphericCoordinate3.getTheta() == 1.1);
+        assertTrue(sphericCoordinate3.getRadius() == 1.1);
+        sphericCoordinate3 = SphericCoordinate.getSphericCoordinate(1.2,1.2,1.2); // change Coordinate object
+        assertTrue(sphericCoordinate3.getPhi() == 1.2);
+        assertTrue(sphericCoordinate3.getTheta() == 1.2);
+        assertTrue(sphericCoordinate3.getRadius() == 1.2);
+    }
 }

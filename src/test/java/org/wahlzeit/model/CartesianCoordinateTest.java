@@ -72,4 +72,30 @@ public class CartesianCoordinateTest {
         assertTrue(spCo1.equals(sphericCo1));
         assertTrue(spCo2.equals(sphericCo2));
     }
+
+    @Test
+    public void immutabilityCheck() {
+        // arrange
+        CartesianCoordinate cartesianCoordinate1 = CartesianCoordinate.getCartesianCoordinate(1,1,1);
+        CartesianCoordinate cartesianCoordinate2 = CartesianCoordinate.getCartesianCoordinate(1,1,1);
+        CartesianCoordinate cartesianCoordinate3 = CartesianCoordinate.getCartesianCoordinate(2,2,2);
+        CartesianCoordinate cartesianCoordinate4 = cartesianCoordinate1.setX(9);
+
+        // act + assert
+
+        // test Coordinate classes are immutable
+        assertFalse(cartesianCoordinate4 == cartesianCoordinate1);
+
+        // test Coordinate classes are shared
+        assertTrue(cartesianCoordinate1 == cartesianCoordinate2);
+
+        // test Coordinate objects are interchangeable
+        assertTrue(cartesianCoordinate3.getX() == 2);
+        assertTrue(cartesianCoordinate3.getY() == 2);
+        assertTrue(cartesianCoordinate3.getZ() == 2);
+        cartesianCoordinate3 = CartesianCoordinate.getCartesianCoordinate(3,3,3); // change Coordinate object
+        assertTrue(cartesianCoordinate3.getX() == 3);
+        assertTrue(cartesianCoordinate3.getY() == 3);
+        assertTrue(cartesianCoordinate3.getZ() == 3);
+    }
 }

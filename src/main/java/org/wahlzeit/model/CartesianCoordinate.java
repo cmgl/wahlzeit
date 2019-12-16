@@ -93,6 +93,35 @@ public final class CartesianCoordinate extends AbstractCoordinate implements Coo
         return z;
     }
 
+    // use case of setters: GPS coordinates are inaccurate (bad GPS signal...) and correction required
+    public CartesianCoordinate setX(double x){
+        // check preconditions
+        try { assertXValue(x); } catch (AssertionError ex) {
+            log.log(Level.WARNING, "x value argument not valid");
+            throw new IllegalArgumentException("x value argument not valid");
+        }
+
+        return CartesianCoordinate.getCartesianCoordinate(x, y, z);
+    }
+    public CartesianCoordinate setY(double y){
+        // check preconditions
+        try { assertYValue(y); } catch (AssertionError ex) {
+            log.log(Level.WARNING, "y value argument not valid");
+            throw new IllegalArgumentException("y value argument not valid");
+        }
+
+        return CartesianCoordinate.getCartesianCoordinate(x, y, z);
+    }
+    public CartesianCoordinate setZ(double z){
+        // check preconditions
+        try { assertZValue(z); } catch (AssertionError ex) {
+            log.log(Level.WARNING, "z value argument not valid");
+            throw new IllegalArgumentException("z value argument not valid");
+        }
+
+        return CartesianCoordinate.getCartesianCoordinate(x, y, z);
+    }
+
     public CartesianCoordinate asCartesianCoordinate() {
         assertClassInvariants();
         return this;

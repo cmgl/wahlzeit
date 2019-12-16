@@ -84,6 +84,35 @@ public final class SphericCoordinate extends AbstractCoordinate implements Coord
         return (radius * Math.cos(theta));
     }
 
+    // use case of setters: GPS coordinates are inaccurate (bad GPS signal...) and correction required
+    public SphericCoordinate setPhi(double phi) {
+        // check preconditions
+        try { assertPhiValue(phi); } catch (AssertionError ex) {
+            log.log(Level.WARNING, "phi value argument not valid");
+            throw new IllegalArgumentException("phi value argument not valid");
+        }
+
+        return SphericCoordinate.getSphericCoordinate(phi, theta, radius);
+    }
+    public SphericCoordinate setTheta(double theta) {
+        // check preconditions
+        try { assertPhiValue(theta); } catch (AssertionError ex) {
+            log.log(Level.WARNING, "theta value argument not valid");
+            throw new IllegalArgumentException("theta value argument not valid");
+        }
+
+        return SphericCoordinate.getSphericCoordinate(phi, theta, radius);
+    }
+    public SphericCoordinate setRadius(double radius) {
+        // check preconditions
+        try { assertPhiValue(radius); } catch (AssertionError ex) {
+            log.log(Level.WARNING, "radius value argument not valid");
+            throw new IllegalArgumentException("radius value argument not valid");
+        }
+
+        return SphericCoordinate.getSphericCoordinate(phi, theta, radius);
+    }
+
     public SphericCoordinate asSphericCoordinate() {
         assertClassInvariants();
         return this;
