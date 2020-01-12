@@ -20,9 +20,16 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.designpattern.DesignPattern;
 import org.wahlzeit.services.LogBuilder;
 
 import java.util.logging.Logger;
+
+@DesignPattern(
+		patternName = "Abstract Factory",
+		patternParticipants = {"PhotoFactory", "PizzaPhotoFactory"},
+		patternIntent = "Factory for generating groups of related and dependent objects"
+)
 
 /**
  * An Abstract Factory for creating photos and related objects.

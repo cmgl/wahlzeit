@@ -26,9 +26,17 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.designpattern.DesignPattern;
+
 import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+@DesignPattern(
+        patternName="Flyweight",
+        patternParticipants={"CartesianCoordinate"},
+        patternIntent="Class that efficiently supports large numbers of objects by sharing"
+)
 
 public final class CartesianCoordinate extends AbstractCoordinate implements Coordinate {
 

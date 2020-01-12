@@ -27,6 +27,7 @@ import com.google.common.io.CharStreams;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.wahlzeit.designpattern.DesignPattern;
 import org.wahlzeit.handlers.PartUtil;
 import org.wahlzeit.handlers.WebFormHandler;
 import org.wahlzeit.handlers.WebPageHandler;
@@ -48,6 +49,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+@DesignPattern(
+		patternName = "Front controller",
+		patternParticipants = {"MainServlet"},
+		patternIntent = "Main entry point for handling requests"
+)
 
 /**
  * The main servlet class for handling incoming and outgoing requests.

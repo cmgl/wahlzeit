@@ -20,11 +20,18 @@
 
 package org.wahlzeit.agents;
 
+import org.wahlzeit.designpattern.DesignPattern;
 import org.wahlzeit.services.LogBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+
+@DesignPattern(
+		patternName="Singleton",
+		patternParticipants={"PhotoManager"},
+		patternIntent="Class that can have only one instance with global access"
+)
 
 /**
  * The AgentManager singleton manages all Agent instances.
