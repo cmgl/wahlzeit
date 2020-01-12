@@ -51,7 +51,9 @@ import java.util.logging.Logger;
 
 @DesignPattern(
 		patternName = "Front controller",
-		patternParticipants = {"MainServlet"},
+		patternParticipants = {
+		        "MainServlet"
+        },
 		patternIntent = "Main entry point for handling requests"
 )
 

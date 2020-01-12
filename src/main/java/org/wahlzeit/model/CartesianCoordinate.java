@@ -34,7 +34,9 @@ import java.util.logging.Logger;
 
 @DesignPattern(
         patternName="Flyweight",
-        patternParticipants={"CartesianCoordinate"},
+        patternParticipants={
+                "CartesianCoordinate"
+        },
         patternIntent="Class that efficiently supports large numbers of objects by sharing"
 )
 

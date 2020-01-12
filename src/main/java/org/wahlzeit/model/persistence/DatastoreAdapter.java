@@ -37,7 +37,9 @@ import java.util.logging.Logger;
 
 @DesignPattern(
 		patternName="Adapter",
-		patternParticipants={"DatastoreAdapter"},
+		patternParticipants={
+		        "DatastoreAdapter"
+        },
 		patternIntent="Adapter for letting two incompatible classes work together"
 )
 

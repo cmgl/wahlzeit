@@ -27,7 +27,10 @@ import java.util.logging.Logger;
 
 @DesignPattern(
 		patternName = "Abstract Factory",
-		patternParticipants = {"PhotoFactory", "PizzaPhotoFactory"},
+		patternParticipants = {
+		        "PhotoFactory",
+                "PizzaPhotoFactory"
+        },
 		patternIntent = "Factory for generating groups of related and dependent objects"
 )
 
