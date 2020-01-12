@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 
 @DesignPattern(
 		patternName="Singleton",
-		patternParticipants={"PhotoManager"},
+		patternParticipants={"AgentManager"},
 		patternIntent="Class that can have only one instance with global access"
 )
 
