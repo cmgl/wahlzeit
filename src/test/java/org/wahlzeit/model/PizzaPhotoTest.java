@@ -56,26 +56,18 @@ public class PizzaPhotoTest {
     }
 
     @Test
-    public void setPizzaName() {
-    }
+    public void pizzaSetterGetter() {
+        // arrange
+        PizzaType pizzaTypeFamily = new PizzaType("Family");
+        String[] ingredientsHawaii = {"Truthahnschinken", "Ananas"};
+        Pizza pizzaHawaii = pizzaTypeFamily.createInstance("Hawaii", ingredientsHawaii);
+        PizzaPhoto pizzaPhoto = new PizzaPhoto();
 
-    @Test
-    public void getMyPizzaName() {
-    }
+        // act
+        pizzaPhoto.setPizza(pizzaHawaii);
+        Pizza result = pizzaPhoto.getPizza();
 
-    @Test
-    public void setMyPizzaDescription() {
-    }
-
-    @Test
-    public void getMyPizzaDescription() {
-    }
-
-    @Test
-    public void setMyPizzaIngredients() {
-    }
-
-    @Test
-    public void getMyPizzaIngredients() {
+        // assert
+        assertEquals(pizzaHawaii, result);
     }
 }
