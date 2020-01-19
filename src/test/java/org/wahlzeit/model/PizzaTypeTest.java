@@ -123,6 +123,7 @@ public class PizzaTypeTest {
     @Test
     public void isSubtype() {
         // arrange + act + assert
-        assertTrue(pizzaTypeViereckig.isSubtype());
+        assertFalse(pizzaTypeViereckig.isSubtype());
+        assertTrue(pizzaTypeFamily.isSubtype());
     }
 }

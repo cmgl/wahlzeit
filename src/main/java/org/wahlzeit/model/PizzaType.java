@@ -85,6 +85,6 @@ public class PizzaType extends DataObject {
     }
 
     public boolean isSubtype(){
-        return superType == null;
+        return null != superType;
     }
 }
