@@ -38,15 +38,7 @@ public class Pizza {
         return pizzaName;
     }
 
-    public void setPizzaName(String pizzaName) {
-        this.pizzaName = pizzaName;
-    }
-
     public String[] getIngredients() {
         return ingredients;
-    }
-
-    public void setIngredients(String[] ingredients) {
-        this.ingredients = ingredients;
     }
 }

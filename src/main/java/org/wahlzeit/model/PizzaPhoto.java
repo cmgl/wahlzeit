@@ -43,17 +43,15 @@ public class PizzaPhoto extends Photo{
             log.log(Level.WARNING, "pizza name not valid");
             throw new IllegalArgumentException("pizza name not valid");
         }
-
-        if (null == pizza){
-            myPizzaName = name;
-        } else {
-            Pizza pizzaObj = (Pizza) pizza.get(0);
-            pizzaObj.setPizzaName(name);
+        if(hasPizzaObject()){
+            throw new IllegalStateException("cannot set pizza name, please set new Pizza object instead");
         }
+
+        myPizzaName = name;
     }
 
     public String getMyPizzaName(){
-        if (null == pizza){
+        if (!hasPizzaObject()){
             return myPizzaName;
         } else {
             Pizza pizzaObj = (Pizza) pizza.get(0);
@@ -66,16 +64,15 @@ public class PizzaPhoto extends Photo{
             log.log(Level.WARNING, "pizza ingredients not valid");
             throw new IllegalArgumentException("pizza ingredients not valid");
         }
-        if (null == pizza){
-            myPizzaIngredients = ingredients;
-        } else {
-            Pizza pizzaObj = (Pizza) pizza.get(0);
-            pizzaObj.setIngredients(ingredients);
+        if(hasPizzaObject()){
+            throw new IllegalStateException("cannot set pizza name, please set new Pizza object instead");
         }
+
+        myPizzaIngredients = ingredients;
     }
 
     public String[] getMyPizzaIngredients(){
-        if (null == pizza){
+        if (!hasPizzaObject()){
             return myPizzaIngredients;
         } else {
             Pizza pizzaObj = (Pizza) pizza.get(0);
@@ -84,7 +81,7 @@ public class PizzaPhoto extends Photo{
     }
 
     public void setPizza(Pizza pizzaObj){
-        if (null == pizza){ // adding Pizza object for the first time
+        if (!hasPizzaObject()){ // adding Pizza object for the first time
             pizza = new ArrayList();
             pizza.add(pizzaObj);
             myPizzaName = null;
@@ -96,10 +93,14 @@ public class PizzaPhoto extends Photo{
     }
 
     public Pizza getPizza(){
-        if (null == pizza){
+        if (!hasPizzaObject()){
             return null;
         }
         return (Pizza) pizza.get(0);
+    }
+
+    public boolean hasPizzaObject(){
+        return null != pizza;
     }
 
     public String getMyPizzaDescription(){
@@ -110,6 +111,7 @@ public class PizzaPhoto extends Photo{
                 desc += getMyPizzaIngredients()[i] + ", ";
             }
         }
+
         return desc;
     }
 }
