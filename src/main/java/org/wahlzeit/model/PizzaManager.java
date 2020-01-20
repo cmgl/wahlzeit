@@ -32,12 +32,14 @@ public class PizzaManager {
         String key = getKey(typeName, pizzaName);
         Pizza result;
 
-        if(pizzas.containsKey(key)){
-            result = pizzas.get(key);
-        } else {
-            PizzaType pt = getPizzaType(typeName);
-            result = pt.createInstance(pizzaName, ingredients);
-            pizzas.put(key, result);
+        synchronized (this){
+            if(pizzas.containsKey(key)){
+                result = pizzas.get(key);
+            } else {
+                PizzaType pt = getPizzaType(typeName);
+                result = pt.createInstance(pizzaName, ingredients);
+                pizzas.put(key, result);
+            }
         }
 
         return result;

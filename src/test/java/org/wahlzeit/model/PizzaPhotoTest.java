@@ -4,13 +4,8 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Work;
 import org.junit.*;
 import org.junit.rules.RuleChain;
-import org.wahlzeit.model.persistence.DatastoreAdapter;
-import org.wahlzeit.model.persistence.ImageStorage;
 import org.wahlzeit.services.Language;
-import org.wahlzeit.services.SessionManager;
 import org.wahlzeit.testEnvironmentProvider.*;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
