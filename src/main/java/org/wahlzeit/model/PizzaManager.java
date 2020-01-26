@@ -1,10 +1,12 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.services.ObjectManager;
+
 import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PizzaManager {
+public class PizzaManager extends ObjectManager {
 
     private static final Logger log = Logger.getLogger(Pizza.class.getName());
 
